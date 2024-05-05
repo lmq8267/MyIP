@@ -15,6 +15,7 @@ const dnsServers = {
     'DNSPod': '119.29.29.29',
     '114DNS': '114.114.114.114',
     'China Unicom': '123.123.123.123',
+    'Dynv6': 'ns1.dynv6.com',
 };
 
 // DNS-over-HTTPS 服务列表
