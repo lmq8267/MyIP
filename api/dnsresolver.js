@@ -58,7 +58,7 @@ const resolveDns = async (hostname, type, name, server) => {
                 addresses = await resolveNSAsync(hostname);
                 break;
             case 'SRV':
-                addresses = await resolveSrvsync(hostname);
+                addresses = await resolveSrvAsync(hostname);
                 break;
             default:
                 throw new Error('Unsupported type');
