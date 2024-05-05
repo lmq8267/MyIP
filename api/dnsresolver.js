@@ -16,8 +16,6 @@ const dnsServers = {
     '114DNS': '114.114.114.114',
     'China Unicom': '123.123.123.123',
     'Dynv6': '95.216.144.82',
-    'Cloudns': '148.251.246.12',
-    'Dedyn': '76.76.21.21',
 };
 
 // DNS-over-HTTPS 服务列表
