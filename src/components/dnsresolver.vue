@@ -36,6 +36,7 @@
                                 <li @click="changeType('MX')"><span class="dropdown-item" >MX</span></li>
                                 <li @click="changeType('NS')"><span class="dropdown-item" >NS</span></li>
                                 <li @click="changeType('TXT')"><span class="dropdown-item" >TXT</span></li>
+                                <li @click="changeType('SRV')"><span class="dropdown-item" >SRV</span></li>
                             </ul>
                             <button class="btn btn-primary" @click="onSubmit" :disabled="dnsCheckStatus === 'running' || !queryURL">
                                 <span v-if="dnsCheckStatus === 'idle'">{{
