@@ -95,7 +95,11 @@ const dnsResolver = async (req, res) => {
     }
 
     // 限制只能从指定域名访问
-    const allowedDomains = ['localhost', ...(process.env.ALLOWED_DOMAINS || '').split(',')];
+    const allowedDomainsString = process.env.ALLOWED_DOMAINS || '';
+    const allowedDomains = allowedDomainsString === '*' || allowedDomainsString === 'all'
+        ? null // 允许所有域名
+        : ['localhost', ...allowedDomainsString.split(',')];
+
     const referer = req.headers.referer;
     if (referer) {
         const domain = new URL(referer).hostname;
