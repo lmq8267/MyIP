@@ -59,6 +59,10 @@ const resolveDns = async (hostname, type, name, server) => {
                 break;
             case 'SRV':
                 addresses = await resolveSrvAsync(hostname);
+                addresses = addresses.map((address) => {
+                address.name = address.name.replace(/\.\d+\.\d+\.\d+$/, ''); 
+                return address;
+                });
                 break;
             default:
                 throw new Error('Unsupported type');
