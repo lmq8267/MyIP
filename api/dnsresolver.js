@@ -50,10 +50,7 @@ const resolveDns = async (hostname, type, name, server) => {
         } else if (address.name) {
             address.name = address.name.replace(suffix, '');
             return address;
-        } else if (address.target) {
-            address.target = address.target.replace(suffix, '');
-            return address;
-        }
+        } 
         return address;
     });
 };
