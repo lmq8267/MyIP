@@ -35,6 +35,25 @@ const resolveDns = async (hostname, type, name, server) => {
     const resolveCnameAsync = promisify(resolver.resolveCname.bind(resolver));
     const resolveNSAsync = promisify(resolver.resolveNs.bind(resolver));
     const resolveSrvAsync = promisify(resolver.resolveSrv.bind(resolver));
+    const removeDynamicDomainSuffix = (addresses, hostname) => {
+    if (!Array.isArray(addresses)) {
+        return addresses;
+    }
+
+    const domainParts = hostname.split('.'); 
+    domainParts.shift(); 
+    const suffix = domainParts.join('.');
+
+    return addresses.map(address => {
+        if (typeof address === 'string') {
+            return address.replace(suffix, '');
+        } else if (address.name) {
+            address.name = address.name.replace(suffix, '');
+            return address;
+        }
+        return address;
+    });
+};
     try {
         let addresses;
 
@@ -59,10 +78,7 @@ const resolveDns = async (hostname, type, name, server) => {
                 break;
             case 'SRV':
                 addresses = await resolveSrvAsync(hostname);
-                addresses = addresses.map((address) => {
-                address.name = address.name.replace(/\.\d+\.\d+\.\d+$/, ''); 
-                return address;
-                });
+                addresses = removeDynamicDomainSuffix(addresses, hostname);
                 break;
             default:
                 throw new Error('Unsupported type');
