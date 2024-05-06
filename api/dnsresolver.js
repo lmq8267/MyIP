@@ -40,8 +40,8 @@ const resolveDns = async (hostname, type, name, server) => {
         return addresses;
     }
 
-    const domainParts = hostname.split('.'); 
-    domainParts.shift(); 
+    const domainParts = hostname.split('.');
+    domainParts.shift();
     const suffix = '.' + domainParts.join('.');
 
     return addresses.map(address => {
@@ -49,6 +49,9 @@ const resolveDns = async (hostname, type, name, server) => {
             return address.replace(suffix, '');
         } else if (address.name) {
             address.name = address.name.replace(suffix, '');
+            return address;
+        } else if (address.target) {
+            address.target = address.target.replace(suffix, '');
             return address;
         }
         return address;
