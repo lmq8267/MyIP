@@ -103,7 +103,7 @@ const resolveDoh = async (hostname, type, name, url) => {
 
         const domainParts = hostname.split('.'); // 将主机名拆分为各个部分
         domainParts.shift(); // 去除第一个域名部分
-        const suffix = '.' + domainParts.join('.'); // 剩余部分作为后缀，并在前面加上点
+        const suffix = '.' + domainParts.join('.') + '.'; // 剩余部分作为后缀，并在前面后面加上点
 
         return addresses.map(address => {
             if (typeof address === 'string') {
