@@ -79,7 +79,6 @@ const resolveDns = async (hostname, type, name, server) => {
             case 'SRV':
                 addresses = await resolveSrvAsync(hostname);
                 addresses = removeDynamicDomainSuffix(addresses, hostname);
-                addresses = addresses.flat();
                 break;
             default:
                 throw new Error('Unsupported type');
@@ -97,17 +96,41 @@ const resolveDns = async (hostname, type, name, server) => {
 };
 
 const resolveDoh = async (hostname, type, name, url) => {
-    
+    const removeDynamicDomainSuffix = (addresses, hostname) => {
+        if (!Array.isArray(addresses)) {
+            return addresses;
+        }
+
+        const domainParts = hostname.split('.'); // 将主机名拆分为各个部分
+        domainParts.shift(); // 去除第一个域名部分
+        const suffix = '.' + domainParts.join('.'); // 剩余部分作为后缀，并在前面加上点
+
+        return addresses.map(address => {
+            if (typeof address === 'string') {
+                return address.replace(suffix, '');
+            } else if (address.name) {
+                address.name = address.name.replace(suffix, '');
+                return address;
+            }
+            return address;
+        });
+    };
+
     try {
         const response = await fetch(`${url}name=${hostname}&type=${type}`, {
             headers: { 'Accept': 'application/dns-json' }
         });
         const data = await response.json();
-        const addresses = data.Answer ? data.Answer.map(answer => answer.data) : ['N/A'];
+        let addresses = data.Answer ? data.Answer.map(answer => answer.data) : ['N/A'];
+        
         if (addresses.length === 0 || addresses === '' || addresses === null) {
             return { [name]: `N/A` };
         }
-        
+
+        if (type === 'SRV') {
+            addresses = removeDynamicDomainSuffix(addresses, hostname);
+        }
+
         return { [name]: addresses };
     } catch (error) {
         console.log(error.message);
