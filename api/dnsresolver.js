@@ -42,7 +42,7 @@ const resolveDns = async (hostname, type, name, server) => {
 
     const domainParts = hostname.split('.'); 
     domainParts.shift(); 
-    const suffix = domainParts.join('.');
+    const suffix = '.' + domainParts.join('.');
 
     return addresses.map(address => {
         if (typeof address === 'string') {
