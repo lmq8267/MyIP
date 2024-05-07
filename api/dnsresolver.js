@@ -156,8 +156,7 @@ const dnsResolver = async (req, res) => {
         const domain = new URL(referer).hostname;
        
     } else {
-        const domain = new URL(referer).hostname;
-        //return res.status(403).json({ error: 'What are you doing?' });
+        return res.status(403).json({ error: 'What are you doing?' });
     }
 
     const { hostname, type } = req.query;
