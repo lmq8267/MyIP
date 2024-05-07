@@ -171,6 +171,7 @@ export default {
         if (typeof address === 'object') {
             address = JSON.stringify(address);
         }
+                 address = address.replace(/[\{\}\[\]\"']/g, '');
 
         return { provider: `${provider} (${type})`, address };
     });
