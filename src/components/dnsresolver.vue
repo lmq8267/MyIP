@@ -163,11 +163,17 @@ export default {
         },
 
         processResults(data) {
-            const processEntries = (entries, type) => entries.map(entry => {
-                const provider = Object.keys(entry)[0];
-                const address = Array.isArray(entry[provider]) ? entry[provider].join(', ') : entry[provider];
-                return { provider: `${provider} (${type})`, address };
-            });
+             const processEntries = (entries, type) => entries.map(entry => {
+        const provider = Object.keys(entry)[0];
+        let address = entry[provider];
+
+    
+        if (typeof address === 'object') {
+            address = JSON.stringify(address);
+        }
+
+        return { provider: `${provider} (${type})`, address };
+    });
 
             if (data.result_dns) {
                 this.combinedResults.push(...processEntries(data.result_dns, 'DNS'));
