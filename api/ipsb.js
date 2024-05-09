@@ -16,9 +16,9 @@ export default (req, res) => {
 
     if (referer) {
         const domain = new URL(referer).hostname;
-        if (!allowedDomains.includes(domain)) {
-            return res.status(403).json({ error: 'Access denied' });
-        }
+        //if (!allowedDomains.includes(domain)) {
+            //return res.status(403).json({ error: 'Access denied' });
+        //}
     } else {
         return res.status(403).json({ error: 'What are you doing?' });
     }
